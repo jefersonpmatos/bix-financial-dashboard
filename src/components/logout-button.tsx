@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { logout } from "@/actions/auth/logout";
+import { Button } from "./ui/button";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -13,5 +14,5 @@ export function LogoutButton() {
     router.refresh();
   };
 
-  return <button onClick={handleLogout}>Sair</button>;
+  return <Button onClick={handleLogout}>Sair</Button>;
 }

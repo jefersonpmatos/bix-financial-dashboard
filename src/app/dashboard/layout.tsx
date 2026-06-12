@@ -1,16 +1,30 @@
-import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
+"use client";
 
-export default async function DashboardLayout({
+import { Home } from "lucide-react";
+import { Container, Content } from "./styles";
+import { Sidebar } from "@/components/ui/sidebar";
+import { LogoutButton } from "@/components/logout-button";
+
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSession();
+  return (
+    <Container>
+      <Sidebar
+        title="BIX Financial Dashboard"
+        items={[
+          {
+            id: "home",
+            label: "Dashboard",
+            icon: <Home size={18} />,
+          },
+        ]}
+        footer={<LogoutButton />}
+      />
 
-  if (!session.isAuthenticated) {
-    redirect("/login");
-  }
-
-  return <>{children}</>;
+      <Content>{children}</Content>
+    </Container>
+  );
 }
