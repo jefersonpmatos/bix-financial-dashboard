@@ -15,9 +15,9 @@ export const theme = {
   },
 
   radius: {
-    sm: "6px",
-    md: "10px",
-    lg: "16px",
+    sm: "2px",
+    md: "4px",
+    lg: "8px",
   },
 
   shadows: {
