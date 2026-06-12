@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  return <div>BIX Financial Dashboard</div>;
+  redirect("/dashboard");
 }
