@@ -2,7 +2,7 @@ import raw from "@/data/transactions.json";
 import { Transaction } from "@/types/transaction";
 
 export function getTransactions(): Transaction[] {
-  return (raw as Transaction[]).map((t) => ({
+  return (raw as unknown as Transaction[]).map((t) => ({
     ...t,
     amount: Number(t.amount) / 100,
   }));
