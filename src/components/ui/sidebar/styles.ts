@@ -4,6 +4,10 @@ interface ContainerProps {
   $collapsed: boolean;
 }
 
+interface ItemProps {
+  $active: boolean;
+}
+
 export const Wrapper = styled.div`
   position: relative;
 `;
@@ -77,10 +81,11 @@ export const Navigation = styled.nav`
   gap: 8px;
 `;
 
-export const NavItem = styled.button`
+export const NavItem = styled.button<ItemProps>`
   height: 44px;
 
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ $active, theme }) =>
+    $active ? theme.colors.border : theme.colors.text};
 
   display: flex;
   align-items: center;
@@ -90,13 +95,20 @@ export const NavItem = styled.button`
 
   border: 0;
   border-radius: ${({ theme }) => theme.radius.md};
-
-  background: transparent;
+  width: 100%;
+  background: ${({ $active, theme }) =>
+    $active ? theme.colors.primary : "transparent"};
 
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.background};
+    background: ${({ theme }) => theme.colors.surface};
+
+    svg {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 

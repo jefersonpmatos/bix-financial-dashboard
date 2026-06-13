@@ -4,6 +4,7 @@ export interface SidebarItem {
   id: string;
   label: string;
   icon?: ReactNode;
+  path: string;
   onClick?: () => void;
 }
 

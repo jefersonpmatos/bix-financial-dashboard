@@ -13,16 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-  Container,
-  DemoCredentials,
-  Form,
-  Header,
-  HeroContent,
-  HeroSection,
-  LoginCard,
-  LoginSection,
-} from "./login.styles";
+import { DemoCredentials, Form, Header } from "./styles";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,75 +42,54 @@ export default function LoginPage() {
   };
 
   return (
-    <Container>
-      <HeroSection>
-        <HeroContent>
-          <h1>Financial Dashboard</h1>
+    <Card>
+      <Header>
+        <h2>Sign In</h2>
 
-          <p>
-            Analyze balances, revenue, expenses and transaction history through
-            interactive dashboards.
-          </p>
-        </HeroContent>
-      </HeroSection>
+        <p>Access your financial dashboard</p>
+      </Header>
 
-      <LoginSection>
-        <LoginCard>
-          <Card>
-            <Header>
-              <h2>Sign In</h2>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Field label="Email" htmlFor="email" error={errors.email?.message}>
+          <Input
+            id="email"
+            type="email"
+            placeholder="admin@bix.com"
+            hasError={!!errors.email}
+            {...register("email")}
+          />
+        </Field>
 
-              <p>Access your financial dashboard</p>
-            </Header>
+        <Field
+          label="Password"
+          htmlFor="password"
+          error={errors.password?.message}
+        >
+          <Input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            hasError={!!errors.password}
+            {...register("password")}
+          />
+        </Field>
 
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <Field
-                label="Email"
-                htmlFor="email"
-                error={errors.email?.message}
-              >
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="admin@bix.com"
-                  hasError={!!errors.email}
-                  {...register("email")}
-                />
-              </Field>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Signing in..." : "Sign In"}
+        </Button>
+      </Form>
 
-              <Field
-                label="Password"
-                htmlFor="password"
-                error={errors.password?.message}
-              >
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  hasError={!!errors.password}
-                  {...register("password")}
-                />
-              </Field>
+      <DemoCredentials>
+        <span>Demo Credentials</span>
 
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Signing in..." : "Sign In"}
-              </Button>
-            </Form>
+        <p>
+          <strong>Email:</strong> admin@bix.com
+        </p>
 
-            <DemoCredentials>
-              <span>Demo Credentials</span>
-
-              <p>
-                <strong>Email:</strong> admin@bix.com
-              </p>
-
-              <p>
-                <strong>Password:</strong> 123456
-              </p>
-            </DemoCredentials>
-          </Card>
-        </LoginCard>
-      </LoginSection>
-    </Container>
+        <p>
+          <strong>Password:</strong> 123456
+        </p>
+      </DemoCredentials>
+    </Card>
   );
 }

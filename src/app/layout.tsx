@@ -4,6 +4,11 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { DashboardProvider } from "@/contexts/dashboard-context";
+import { Container, Content } from "./styles";
+import { Sidebar } from "@/components/ui/sidebar";
+import { ChartArea, Home } from "lucide-react";
+import { LogoutButton } from "@/components/logout-button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +34,32 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         <StyledComponentsRegistry>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <DashboardProvider>
+              <Container>
+                <Sidebar
+                  title="BIX Financial Dashboard"
+                  items={[
+                    {
+                      id: "home",
+                      label: "Home",
+                      icon: <Home size={18} />,
+                      path: "/",
+                    },
+                    {
+                      id: "dashboard",
+                      label: "Dashboard",
+                      icon: <ChartArea size={18} />,
+                      path: "/dashboard",
+                    },
+                  ]}
+                  footer={<LogoutButton />}
+                />
+
+                <Content>{children}</Content>
+              </Container>
+            </DashboardProvider>
+          </ThemeProvider>
         </StyledComponentsRegistry>
         <Toaster richColors />
       </body>

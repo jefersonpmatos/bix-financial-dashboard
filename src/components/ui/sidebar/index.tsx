@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation"; // Correção: next/navigation (não next-navigation)
+import Link from "next/link";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 
 import { SidebarProps } from "./types";
@@ -22,6 +24,7 @@ export function Sidebar({
   defaultCollapsed = false,
 }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
+  const pathname = usePathname();
 
   return (
     <Wrapper>
@@ -36,13 +39,18 @@ export function Sidebar({
         <Header>{title}</Header>
 
         <Navigation>
-          {items.map((item) => (
-            <NavItem key={item.id} onClick={item.onClick}>
-              {item.icon}
+          {items.map((item) => {
+            const isActive = pathname === item.path;
 
-              <span>{item.label}</span>
-            </NavItem>
-          ))}
+            return (
+              <Link href={item.path} key={item.id}>
+                <NavItem $active={isActive}>
+                  {item.icon}
+                  <span>{item.label}</span>
+                </NavItem>
+              </Link>
+            );
+          })}
         </Navigation>
 
         {footer && <Footer>{footer}</Footer>}
