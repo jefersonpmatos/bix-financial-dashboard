@@ -13,6 +13,7 @@ import {
 
 import { formatDate, formatCurrency } from "@/lib/format";
 import { ChartCard, ChartHeader } from "./styles";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface Props {
   data: {
@@ -50,36 +51,42 @@ function BalanceLineChartBase({ data }: Props) {
 
   const formatYAxis = useCallback((value: number) => formatCurrency(value), []);
 
+  const hasData = chartData && chartData.length > 0;
+
   return (
     <ChartCard>
       <ChartHeader>
-        <h3>Balance Trend</h3>
-        <span>Cumulative balance over time</span>
+        <h3>Evolução de Saldo</h3>
+        <span>Saldo acumulado ao longo do tempo</span>
       </ChartHeader>
 
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData} margin={{ left: 50 }}>
-          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-          <XAxis dataKey="date" tickFormatter={formatDateBR} />
-          <YAxis tickFormatter={formatYAxis} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#fff",
-              border: "1px solid #ccc",
-            }}
-            labelFormatter={(value) => formatDateBR(value)}
-            formatter={(value) => [formatCurrency(Number(value)), "Saldo"]}
-          />
-          <Line
-            type="natural"
-            dataKey="balance"
-            stroke="#2563eb"
-            strokeWidth={2}
-            dot={false}
-            isAnimationActive={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      {hasData ? (
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData} margin={{ left: 50 }}>
+            <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+            <XAxis dataKey="date" tickFormatter={formatDateBR} />
+            <YAxis tickFormatter={formatYAxis} />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#fff",
+                border: "1px solid #ccc",
+              }}
+              labelFormatter={(value) => formatDateBR(value)}
+              formatter={(value) => [formatCurrency(Number(value)), "Saldo"]}
+            />
+            <Line
+              type="natural"
+              dataKey="balance"
+              stroke="#2563eb"
+              strokeWidth={2}
+              dot={false}
+              isAnimationActive={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        <EmptyState />
+      )}
     </ChartCard>
   );
 }

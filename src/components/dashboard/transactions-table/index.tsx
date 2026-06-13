@@ -8,6 +8,7 @@ import { useTable } from "./use-table";
 import { columns } from "./columns";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export function TransactionsTable({
   data,
@@ -30,6 +31,7 @@ export function TransactionsTable({
   });
 
   const items = virtualizer.getVirtualItems();
+  const hasData = !loading && rows.length > 0;
 
   return (
     <Card>
@@ -79,39 +81,39 @@ export function TransactionsTable({
           position: "relative",
         }}
       >
-        <div
-          style={{
-            height: virtualizer.getTotalSize(),
-            position: "relative",
-          }}
-        >
-          {loading &&
-            Array.from({ length: 10 }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  height: 48,
-                  borderBottom: "1px solid #f3f3f3",
-                }}
-              >
-                {columns.map((_, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      flex: 1,
-                      height: 12,
-                      margin: 8,
-                      background: "#eee",
-                      borderRadius: 4,
-                    }}
-                  />
-                ))}
-              </div>
-            ))}
+        {loading &&
+          Array.from({ length: 10 }).map((_, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                height: 48,
+                borderBottom: "1px solid #f3f3f3",
+              }}
+            >
+              {columns.map((_, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    flex: 1,
+                    height: 12,
+                    margin: 8,
+                    background: "#eee",
+                    borderRadius: 4,
+                  }}
+                />
+              ))}
+            </div>
+          ))}
 
-          {!loading &&
-            items.map((vRow) => {
+        {hasData && (
+          <div
+            style={{
+              height: virtualizer.getTotalSize(),
+              position: "relative",
+            }}
+          >
+            {items.map((vRow) => {
               const row = rows[vRow.index];
 
               return (
@@ -138,7 +140,21 @@ export function TransactionsTable({
                 </div>
               );
             })}
-        </div>
+          </div>
+        )}
+
+        {!hasData && !loading && (
+          <div
+            style={{
+              height: 600,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <EmptyState />
+          </div>
+        )}
       </div>
     </Card>
   );

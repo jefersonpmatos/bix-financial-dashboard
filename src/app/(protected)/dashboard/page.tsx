@@ -14,10 +14,7 @@ export default function DashboardPage() {
   return (
     <LayoutContainer>
       <H1>Dashboard</H1>
-      <Description>
-        {" "}
-        Manage your finances with ease and efficiency.{" "}
-      </Description>
+      <Description>Manage your finances with ease and efficiency.</Description>
 
       <Filters />
 
